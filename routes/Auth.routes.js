@@ -43,7 +43,7 @@ router.post('/', async (req, res) => {
 
         // Redirect to login page on success
         res.redirect('/login');
-        
+
     } catch (error) {
         console.error('Error creating user:', error);
         res.status(500).render('register', { Msg: "An error occurred. Please try again later." });
@@ -87,6 +87,14 @@ try {
     res.render('login',{Msg: "server erroe"});
 }
 });
+
+router.post('/forgetpwd', async, (req, res) => {
+    try {
+        
+    } catch (error) {
+        
+    }
+})
 
 
 

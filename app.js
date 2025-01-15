@@ -22,5 +22,6 @@ app.set('view engine', 'ejs');
 
 /////////////routes/////////////////
 app.use('/auth', require('./routes/Auth.routes'));
+app.use('/verif', require('./routes/forgetPwd.routes'));
 
 app.listen(port, () => console.log(`app listening on port ${port}!`))

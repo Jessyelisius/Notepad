@@ -88,14 +88,5 @@ try {
 }
 });
 
-router.post('/forgetpwd', async, (req, res) => {
-    try {
-        
-    } catch (error) {
-        
-    }
-})
-
-
 
 module.exports = router;

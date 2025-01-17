@@ -3,10 +3,15 @@ const dotenv = require('dotenv').config();
 const cors = require('cors');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
+const connection = require('./config/dbCon');
 
 
 const app = express();
 const port = process.env.PORT || 3001
+
+//database connection
+connection();
+
 
 ////////////middleware//////////
 app.use(cors());

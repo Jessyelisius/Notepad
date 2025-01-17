@@ -42,7 +42,7 @@ router.post('/', async (req, res) => {
         });
 
         // Redirect to login page on success
-        res.redirect('/login');
+        res.redirect('login');
 
     } catch (error) {
         console.error('Error creating user:', error);
@@ -62,7 +62,7 @@ try {
     const user = await UserModel.findOne({Email})
     if(!user) return res.render('login', {Msg: 'User is not found'});
 
-    const pwdValid = bcrypt.compareSync(Input.Password, Password);
+    const pwdValid = bcrypt.compareSync(Password, Password);
     if(!pwdValid) return res.render('login', {Msg: 'incorrect password'});
 
     //generate a jwt token

@@ -16,10 +16,12 @@
                   <div class="contact-wrap w-100 p-md-5 p-4">
                     <h3>Login</h3>
                     <p class="mb-4">We're open for any suggestion or just to have a chat</p>
-                    
-                    <form id="contactForm" action="auth/login" method="post" name="contactForm" class="contactForm">
+                    <% if (Msg) { %>
+                      <small class="text-danger"><%= Msg %></small>
+                    <% } %>
+                    <form id="contactForm" action="/auth/login" method="post" name="contactForm" class="contactForm">
                       <div class="row">
-                        <div class="col-lg-6">
+                        <!-- <div class="col-lg-6">
                           <div class="form-group">
                             <input type="text" class="form-control" name="FirstName" id="name" placeholder="FirstName">
                           </div>
@@ -27,6 +29,11 @@
                         <div class="col-lg-6"> 
                           <div class="form-group">
                             <input type="text" class="form-control" name="LastName" id="lastname" placeholder="LastName">
+                          </div>
+                        </div> -->
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <input type="email" class="form-control" name="Email" id="subject" placeholder="Email">
                           </div>
                         </div>
                         <div class="col-md-12">

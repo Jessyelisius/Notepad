@@ -1,12 +1,12 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const UserModel = require('../models/UserModel');
-const { jwt } = require('jsonwebtoken');
+const  jwt  = require('jsonwebtoken');
 const router = express.Router();
 
 
 router.get('/', (req, res) => {
-    res.render('register');
+    res.render('register', {Msg: ""});
 });
 
 
@@ -42,7 +42,7 @@ router.post('/', async (req, res) => {
         });
 
         // Redirect to login page on success
-        res.redirect('login');
+        res.render('login', {Msg:""});
 
     } catch (error) {
         console.error('Error creating user:', error);
@@ -52,7 +52,7 @@ router.post('/', async (req, res) => {
 
 
 router.get('/login', (req, res) => {
-    res.render('login')
+    res.render('login', {Msg:" "})
 });
 
 router.post('/login', async(req, res) => {
@@ -62,7 +62,7 @@ try {
     const user = await UserModel.findOne({Email})
     if(!user) return res.render('login', {Msg: 'User is not found'});
 
-    const pwdValid = bcrypt.compareSync(Password, Password);
+    const pwdValid = bcrypt.compareSync(Password, user.Password);
     if(!pwdValid) return res.render('login', {Msg: 'incorrect password'});
 
     //generate a jwt token
@@ -71,7 +71,7 @@ try {
             id: user.id,
             Email: user.Email
         }
-    }, process.env.JWT_SECRET_TOKEN,{ExpiresIn:'1hr'});
+    }, process.env.JWT_SECRET_TOKEN,{expiresIn:'1hr'});
 
     //set token as cookie
     res.cookie('token', token, {
@@ -80,11 +80,11 @@ try {
         maxAge: 3600000 //token expiry 1hr
     });
 
-    res.redirect('index')
+    res.render('index');
 
 } catch (error) {
-    console.log('error while login in');
-    res.render('login',{Msg: "server erroe"});
+    console.log('error while trying to login',error);
+    res.render('login',{Msg: "server error"});
 }
 });
 

@@ -1,7 +1,7 @@
 const express = require('express')
 const nodemailer = require('nodemailer');
-const UserModel = require('../models/UserModel');
-const forgetpwd = require('../models/forgetpwd');
+const UserModel = require('../../models/UserModel');
+const forgetpwd = require('../../models/forgetpwd');
 const router = express.Router();
 
 

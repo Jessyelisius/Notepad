@@ -1,3 +1,7 @@
+const UserModel = require('../../models/UserModel');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken')
+
 const router = require('express').Router();
 
 
@@ -30,7 +34,7 @@ try {
         maxAge: 3600000 //token expiry 1hr
     });
 
-    res.render('index');
+    res.redirect('/home');
 
 } catch (error) {
     console.log('error while trying to login',error);

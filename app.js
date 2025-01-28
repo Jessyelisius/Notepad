@@ -26,9 +26,12 @@ app.set('view engine', 'ejs');
 
 
 /////////////routes/////////////////
-app.use('/auth', require('./routes/auth/register'));
-app.use('/verif', require('./routes/auth/forgetPwd'));
+app.use('/auth', require('./routes/auth/auth.routes'));
 app.use('/home', require('./routes/userNote'));
 
+//404 page
+app.use((req, res) => {
+    res.render('404')
+});
 
 app.listen(port, () => console.log(`app listening on port ${port}!`))

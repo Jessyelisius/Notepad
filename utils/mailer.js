@@ -1,6 +1,10 @@
 const mailer = require("nodemailer");
 
 
+const generateOtp = ()=>{
+  return Math.floor(1000 + Math.random() * 9000);
+}
+
 const myemail = mailer.createTransport({
 
     service: process.env.service,
@@ -34,6 +38,19 @@ async function Sendmail(to, subject, html, many=false) {
     }
 }
 
+
+const sendOTP = async({to, subject, text}) => {
+  const mails = {
+      from: process.env.email,
+      to: to,
+      subject: subject,
+      text: text
+  };
+  return transport.sendMail(mails);
+}
+
 module.exports = {
-    Sendmail
+    Sendmail,
+    sendOTP,
+    generateOtp
 }

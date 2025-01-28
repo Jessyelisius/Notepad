@@ -6,7 +6,7 @@ const ValidateToken = async(req, res, next ) => {
     let token;
 
     const AuthHeaders = req.headers.authorization || req.headers.Authorization
-    if(!AuthHeaders) return res.redirect('/404', {Msg: "no auth header"});
+    if(!AuthHeaders) return res.render('404', {Msg: "no auth header"});
 
     if(AuthHeaders && AuthHeaders.startsWith('Bearer')){
         token = AuthHeaders.split(' ')[1]

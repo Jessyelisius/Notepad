@@ -29,9 +29,16 @@ app.set('view engine', 'ejs');
 app.use('/auth', require('./routes/auth/auth.routes'));
 app.use('/home', require('./routes/userNote'));
 
-//404 page
+// 404 page
 app.use((req, res) => {
-    res.render('404')
+    console.error(`404 Error: Route not found - ${req.originalUrl}`);
+    res.status(404).render('404', { Msg: 'The requested page was not found.' });
 });
+
+//400page
+// app.use((err, req, res, next) => {
+//     console.error(err.stack);
+//     res.status(500).render('500', { error: err.message });
+// });
 
 app.listen(port, () => console.log(`app listening on port ${port}!`))

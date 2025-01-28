@@ -20,12 +20,12 @@ try {
     if(!pwdValid) return res.render('login', {Msg: 'incorrect password'});
 
     //generate a jwt token
-    const token = jwt.sign({
-        user:{
+    const token = jwt.sign(
+    { user:{
             id: user.id,
             Email: user.Email
         }
-    }, process.env.JWT_SECRET_TOKEN,{expiresIn:'1hr'});
+    }, process.env.JWT_SECRET_TOKEN,{expiresIn:'1h'});
 
     //set token as cookie
     res.cookie('token', token, {

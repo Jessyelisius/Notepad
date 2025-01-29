@@ -8,8 +8,8 @@ const router = express.Router();
 
 
 router.get('/forgetpwd', async(req, res) => {
-    res.render('forgetPassword')
-})
+    res.render('forgetPassword',{Msg:""})
+});
 router.post('/forgetpwd', async(req, res) => {
     
     try {
@@ -24,7 +24,7 @@ router.post('/forgetpwd', async(req, res) => {
 
         //save otp to db
         const pwdEntry = new forgetpwd({
-            User_id: user._id,
+            User_id: user.id,
             Otp: Otp
         });
 
@@ -100,45 +100,55 @@ router.post('/forgetpwd', async(req, res) => {
             </html>
             `);
             
-        res.status(200).render('forgetPassword', {Msg: "otp sent to your email"})
+        res.status(200).render('resetPwd', {Msg: ""})
     } catch (error) {
         console.log("error processing request",error);
         res.status(400).render('404');
     }
 });
 
-router.post('/resetPwd', async(req,res)=>{
+router.get('/resetPwd', async(req, res) => {
+    res.render('resetPwd', {Msg:""});
+});
+
+router.post('/resetPwd', async (req, res) => {
     try {
-        const {Otp, Password } = req.body;
+        const { Otp, Password } = req.body;
 
-        const user = await forgetpwd.findOne({User_id:req.user._id});
-        if(!user){
-            return res.status(400).render('resetPwd',{Msg: "user not found"})
+        // Check if OTP exists in database
+        const otpEntry = await forgetpwd.findOne({ Otp });
+        if (!otpEntry) {
+            return res.status(400).render('resetPwd', { Msg: "Invalid OTP" });
         }
-        //validate otp
-        if(!Otp || Otp !== user.Otp){
-            return res.status(400).render('resetPwd',{Msg: "invalid otp"})
-        }
-        //if otp is expired
-       const otpAge = Date.now() - user.ExpiresAt;
-       if(otpAge > 10 * 10* 1000){
-            return res.status(400).render('resetPwd',{Msg: "otp expired"})
-       }
 
-        // password length
+        // Validate OTP expiry
+        const otpAge = Date.now() - new Date(otpEntry.ExpiresAt).getTime();
+        if (otpAge > 10 * 60 * 1000) { // 10 minutes
+            return res.status(400).render('resetPwd', { Msg: "OTP expired" });
+        }
+
+        // Ensure password length is sufficient
         if (Password.length < 4) {
             return res.status(400).render('resetPwd', { Msg: "Password must be at least 4 characters long" });
         }
-       const pwd = bcrypt.hashSync(Password, 10);
-       user.Password = pwd;
-       user.Otp = undefined;
-       user.ExpiresAt = undefined;
-       await user.save()
-       res.status(200).render('login')
-       
+
+        // Hash the new password
+        const hashedPwd = bcrypt.hashSync(Password, 10);
+
+        // Update the user’s password in the UserModel
+        await UserModel.findByIdAndUpdate(otpEntry.User_id, { Password: hashedPwd });
+
+        // Delete the OTP entry from `forgetpwd` collection
+        await forgetpwd.deleteOne({ _id: otpEntry._id });
+
+        // Redirect to login page
+        res.status(200).render('login', { Msg: "Password reset successful. Please log in." });
+
     } catch (error) {
-        console.log("error processing request",error);
-        res.status(500).render('resetPwd', { Msg: "An error occurred while processing your request" });    }
-})
+        console.log("Error processing request:", error);
+        res.status(500).render('resetPwd', { Msg: "An error occurred while processing your request" });
+    }
+});
+
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const UserModel = require('../../models/UserModel');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const ValidateToken = require('../../middleware/validation');
 
 const router = require('express').Router();
 
@@ -42,4 +43,8 @@ try {
 }
 });
 
+// router.post('/logout', ValidateToken, async(req, res) => {
+//     res.cookie('destroyed');
+    
+// })
 module.exports = router;

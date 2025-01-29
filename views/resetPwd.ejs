@@ -15,22 +15,28 @@
                     <h3>Forget Password</h3>
                     <p class="mb-4">We're open for any suggestion or just to have a chat</p>
                     <% if (Msg) { %>
-                      <small class="text-danger"><%= Msg %></small>
-                    <% } %>
-                    <form id="contactForm" action="/auth/forgetpwd" method="post" name="contactForm" class="contactForm">
+                        <small class="text-danger"><%= Msg %></small>
+                      <% } %>
+                      
+                    <form id="contactForm" action="/auth/resetPwd" method="post" name="contactForm" class="contactForm">
                       <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                              <input type="email" class="form-control" name="Email" id="password" placeholder="Email">
+                              <input type="number" class="form-control" name="Otp" id="password" placeholder="OTP">
                             </div>
-                          </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                              <input type="password" class="form-control" name="Password" id="password" placeholder="Password">
+                            </div>
+                        </div>
                         <div class="col-md-12">
                           <div class="form-group">
                             <input type="submit" value="Send" class="btn btn-primary">
                             <div class="submitting"></div>
                           </div>
                         </div>
-                        <p>Don't have an account <a href="/auth">Register Here</a></p>
+                        <!-- <p>Don't have an account <a href="/auth">Register Here</a></p> -->
                       </div>
                     </form>
                     <div class="w-100 social-media mt-5">

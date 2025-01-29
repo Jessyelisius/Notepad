@@ -26,13 +26,13 @@ try {
             id: user.id,
             Email: user.Email
         }
-    }, process.env.JWT_SECRET_TOKEN,{expiresIn:'1h'});
+    }, process.env.JWT_SECRET_TOKEN,{expiresIn:'1D'});
 
     //set token as cookie
     res.cookie('token', token, {
         httpOnly: true,
         secure: process.env.SESSION_SECRET,
-        maxAge: 3600000 //token expiry 1hr
+        maxAge: 3600000*24 //token expiry 1hr
     });
 
     res.redirect('/home');

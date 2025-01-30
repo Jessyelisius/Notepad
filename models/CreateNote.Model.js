@@ -7,7 +7,11 @@ const CreateNoteSchema = new mongoose.Schema({
     Content:{
         type:String,
         required:[true, "content is required"]
-    }
+    },
+    UserId:{
+        type:String,
+        required:true
+    },
 },{timestamps:true});
 
 module.exports = mongoose.model('CreateNote', CreateNoteSchema);

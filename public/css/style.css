@@ -885,6 +885,8 @@ textarea.form-control {
 
 .navbar {
   position: relative;
+  top:0;
+  z-index: 1000;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -942,6 +944,25 @@ textarea.form-control {
   -ms-flex-align: center;
   align-items: center;
   width: 100%; }
+
+  /* .navbar navbar-expand-lg  ftco-navbar-light{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: white;
+    z-index: 1000;
+  } */
+  /* .navbar{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: white;
+    z-index: 1000; 
+} */
+/* body {
+    padding-top: 60px; 
+} */
+
 
 .navbar-toggler {
   padding: 0.25rem 0.75rem;
@@ -1681,11 +1702,11 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5,
 
 .top-wrap {
   background: transparent !important;
-  position: absolute;
+  position: fixed;
   top: 0px;
   left: 0;
   right: 0;
-  z-index: 3;
+  z-index: 1000;
   padding: 1.2em 0; }
   .top-wrap .con .icon span {
     color: #fff;

@@ -5,18 +5,18 @@ const CreateNoteModel = require('../models/CreateNote.Model');
 const router = express.Router();
 
 router.get('/', ValidateToken, async(req, res) => {
-    res.render('index',{ user: req.user });
+    res.render('index',{ user: req.user, Notes:[], Msg:"" });
 });
 
 router.get('/createNote', ValidateToken, async(req, res) => {
-    res.render('createNote',{ Msg:"", user});
+    res.render('createNote',{ Msg:""});
 });
 
 router.post('/create', ValidateToken, async(req, res) => {
     try {
         const {Title, Content} = req.body;
 
-        if(!Title || Content){
+        if(!Title || !Content){
             return res.status(400).render('createNote',{Msg:"All inputs are required"})
         }
 
@@ -25,7 +25,7 @@ router.post('/create', ValidateToken, async(req, res) => {
             Content,
             UserId:req.user.id
         });
-        res.status(200).render('index',{user});
+        res.redirect('/home');
 
     } catch (error) {
         console.log("Error creating notes",error);
@@ -35,16 +35,23 @@ router.post('/create', ValidateToken, async(req, res) => {
 
 router.get('/getAllNotes', ValidateToken, async(req, res) => {
     try {
+        console.log('fetching notes for user:', req.user.id);
+        console.log('user id:', req.user.id);
+        
         const Notes = await CreateNoteModel.find({UserId:req.user.id});
-        res.status(200).render('/home',{Notes});
-
-        if(!Notes){
-            return res.status(200).render('/home', {Msg:"no Note available to display"})
+        console.log('notes form user', Notes);
+        
+        if(Notes.length === 0){
+            console.log('no note found for this user');
+            
+            return res.status(400).render('index', {user: req.user, Notes:[], Msg:"No Note available to display"})
         }
+
+        return res.status(200).render('index',{user:req.user, Notes});
 
     } catch (error) {
         console.log("error trying to get Notes", error);
-        res.status(400).render('/home',{Msg:"error displaying notes"})
+        res.status(400).render('index',{user:req.user, Notes:[], Msg:"error displaying notes"})
     }
 });
 

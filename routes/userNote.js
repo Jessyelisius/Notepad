@@ -38,16 +38,16 @@ router.get('/getAllNotes', ValidateToken, async(req, res) => {
         console.log('fetching notes for user:', req.user.id);
         console.log('user id:', req.user.id);
         
-        const Notes = await CreateNoteModel.find({UserId:req.user.id});
+        const Notes = await CreateNoteModel.find({UserId:req.user._id});
         console.log('notes form user', Notes);
         
         if(Notes.length === 0){
             console.log('no note found for this user');
             
-            return res.status(400).render('index', {user: req.user, Notes:[], Msg:"No Note available to display"})
+            return res.status(400).render('index', {user: req.user, Notes:[], Msg:"No Note available to display"});
         }
 
-        return res.status(200).render('index',{user:req.user, Notes});
+        res.status(200).render('index',{user:req.user, Notes, Msg:""});
 
     } catch (error) {
         console.log("error trying to get Notes", error);

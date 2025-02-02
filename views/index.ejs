@@ -8,7 +8,6 @@
 <%- include('partials/nav') %>
 
 
-<% console.log('Received Notes:', Notes); %>
 
     <!-- <section class="hero-wrap">
       <div class="overlay"></div>
@@ -38,7 +37,7 @@
             <div class="mt-0 my-lg-5 py-5">
               <span class="subheading">Write Anything</span>
               <h2 class="mb-2">Your Notes</h2>
-              <form action="/home/getAllNotes" method="get" id="contactForm" name="contactForm" class="contactForm">
+              <form action="/home" method="get" id="contactForm" name="contactForm" class="contactForm">
 
                 <% if(Msg){%>
                   <p class="alert alert-warning"><%= Msg %></p>
@@ -53,7 +52,7 @@
                     <div class="services d-flex">
                       <div class="icon"><span class="flaticon-online-learning"></span></div>
                       <div class="text">
-                        <h2><%= Note.Title %></h2>
+                        <a href="/home/getSingleNote/<%= Note.id %>"><h2><%= Note.Title %></h2></a>
                         <p class="mb-0"><%= Note.Content %></p>
                       </div>
                     </div>

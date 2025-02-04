@@ -27,6 +27,7 @@ app.set('view engine', 'ejs');
 
 /////////////routes/////////////////
 app.use('/auth', require('./routes/auth/auth.routes'));
+app.get('/',(req,res,next)=>res.redirect('/home'))
 app.use('/home', require('./routes/userNote'));
 
 // 404 page

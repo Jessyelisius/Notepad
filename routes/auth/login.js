@@ -43,10 +43,10 @@ try {
 }
 });
 
-router.post('/logout', ValidateToken, async(req, res)=>{
+router.get('/logout', ValidateToken, async(req, res)=>{
     res.clearCookie('token');
-    res.redirect('/login');
-}) 
+    res.redirect('/auth/login');
+});
     
 
 module.exports = router;
